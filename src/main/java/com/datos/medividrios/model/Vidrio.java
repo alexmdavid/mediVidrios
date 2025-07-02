@@ -1,15 +1,13 @@
 package com.datos.medividrios.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter @Setter
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
+@Getter @Setter
 public class Vidrio {
+    private long id;
     private float ancho_cm;
     private float alto_cm;
-
-
-
 }

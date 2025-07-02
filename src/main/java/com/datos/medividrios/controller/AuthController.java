@@ -3,6 +3,7 @@ package com.datos.medividrios.controller;
 import com.datos.medividrios.dto.autenticacion.AuthRequest;
 import com.datos.medividrios.dto.autenticacion.AuthResponse;
 import com.datos.medividrios.security.JwtUtil;
+import com.datos.medividrios.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,22 +17,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
-
-    private final AuthenticationManager authenticationManager;
-    private final UserDetailsService userDetailsService;
-    private final JwtUtil jwtUtil;
+    private final AuthService authService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getCorreo(), request.getClave())
-            );
-
-            final UserDetails user = userDetailsService.loadUserByUsername(request.getCorreo());
-            final String token = jwtUtil.generateToken(user);
-
-            return ResponseEntity.ok(new AuthResponse(token));
+            AuthResponse response = authService.login(request);
+            return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body("Usuario o contraseña incorrectos");
         }
