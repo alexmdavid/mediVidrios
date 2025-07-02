@@ -15,7 +15,7 @@ import lombok.*;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @NotBlank(message = "El nombre no puede estar vacío")
     private String nombre;
     @NotBlank(message = "El apellido no puede estar vacio")
