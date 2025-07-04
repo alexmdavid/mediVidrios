@@ -18,4 +18,7 @@ public class Medicion {
     private Boolean hayMasDeUnPiso;
     @OneToMany(mappedBy = "medicion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Artefacto> artefactos;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
 }
