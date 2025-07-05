@@ -1,5 +1,6 @@
 package com.datos.medividrios.dto.cliente;
 
+import com.datos.medividrios.enuum.TipoCliente;
 import lombok.Data;
 
 @Data
@@ -9,6 +10,7 @@ public class ClienteResponse {
     private String apellido;
     private String email;
     private String telefono;
-    private String tipoCliente;
+    private TipoCliente tipoCliente;
     private String direccion;
+    private Double gasto;
 }

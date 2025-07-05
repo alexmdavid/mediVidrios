@@ -26,6 +26,7 @@ public class ClienteService implements ICienteService {
                 .telefono(dto.getTelefono())
                 .direccion(dto.getDireccion())
                 .tipoCliente(dto.getTipoCliente())
+                .gasto(dto.getGasto())
                 .build();
         Cliente clienteGuardado = clienteRepository.save(cliente);
         ClienteResponse clienteResponse = new ClienteResponse();
@@ -36,6 +37,7 @@ public class ClienteService implements ICienteService {
         clienteResponse.setTelefono(cliente.getTelefono());
         clienteResponse.setDireccion(cliente.getDireccion());
         clienteResponse.setTipoCliente(cliente.getTipoCliente());
+        clienteResponse.setGasto(cliente.getGasto());
         return clienteResponse;
     }
 
@@ -51,6 +53,7 @@ public class ClienteService implements ICienteService {
             obtenerCliente.setTelefono(cliente.getTelefono());
             obtenerCliente.setDireccion(cliente.getDireccion());
             obtenerCliente.setTipoCliente(cliente.getTipoCliente());
+            obtenerCliente.setGasto(cliente.getGasto());
             clientes.add(obtenerCliente);
         }
         return clientes;

@@ -3,6 +3,7 @@ package com.datos.medividrios.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 @Builder
 @AllArgsConstructor
@@ -16,6 +17,8 @@ public class Medicion {
     private String Cliente;
     private String descripcion;
     private Boolean hayMasDeUnPiso;
+    private LocalDate fechaRegistro;
+    private LocalDate fechaEntrega;
     @OneToMany(mappedBy = "medicion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Artefacto> artefactos;
     @ManyToOne(fetch = FetchType.LAZY)

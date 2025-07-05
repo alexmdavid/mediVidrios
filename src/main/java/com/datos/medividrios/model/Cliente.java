@@ -1,5 +1,6 @@
 package com.datos.medividrios.model;
 
+import com.datos.medividrios.enuum.TipoCliente;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,8 +19,9 @@ public class Cliente {
     private String apellido;
     private String email;
     private String telefono;
-    private String tipoCliente;
+    private TipoCliente tipoCliente;
     private String direccion;
+    private Double gasto;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente", orphanRemoval = true)
     private List<Medicion> compras;
 }

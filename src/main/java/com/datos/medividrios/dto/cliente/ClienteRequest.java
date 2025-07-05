@@ -1,5 +1,6 @@
 package com.datos.medividrios.dto.cliente;
 
+import com.datos.medividrios.enuum.TipoCliente;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,8 @@ public class ClienteRequest {
     private String apellido;
     private String email;
     private String telefono;
-    private String tipoCliente;
+    private TipoCliente tipoCliente;
     private String direccion;
+    private  Double gasto;
 
 }
