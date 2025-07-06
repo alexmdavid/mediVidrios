@@ -10,12 +10,14 @@ import com.datos.medividrios.repository.ArtefactoRepository;
 import com.datos.medividrios.repository.MedicionRepository;
 import com.datos.medividrios.repository.VidrioRepository;
 import com.datos.medividrios.service.iservices.IVidrioService;
+import com.datos.medividrios.util.Util;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VidrioService implements IVidrioService {
@@ -48,6 +50,92 @@ public class VidrioService implements IVidrioService {
 
         return response;
     }
+
+    @Override
+    public List<VidrioResponse> obtenerVidriosPorArtefacto(Long artefactoId) {
+        Artefacto artefacto = artefactoRepository.findById(artefactoId)
+                .orElseThrow(() -> new EntityNotFoundException("Artefacto no encontrado con ID: " + artefactoId));
+
+        return artefacto.getVidrios().stream().map(v -> {
+            VidrioResponse dto = new VidrioResponse();
+            dto.setId(v.getId());
+            dto.setAncho_cm(v.getAncho_cm());
+            dto.setAlto_cm(v.getAlto_cm());
+            dto.setArtefactoId(artefactoId);
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
+    //obteenrlos por artefacto, pero cubicados
+
+    @Override
+    public List<VidrioCubicado> obtenerVidriosCubicadosPorArtefacto(Long artefactoId) {
+        Artefacto artefacto = artefactoRepository.findById(artefactoId)
+                .orElseThrow(() -> new EntityNotFoundException("Artefacto no encontrado con ID: " + artefactoId));
+
+        return artefacto.getVidrios().stream().map(vidrio -> {
+            double[] medidasCubicadas = Util.cubicar(vidrio.getAncho_cm(), vidrio.getAlto_cm());
+            double anchoCubicado = medidasCubicadas[0];
+            double altoCubicado = medidasCubicadas[1];
+            double area = anchoCubicado * altoCubicado;
+
+            VidrioCubicado dto = new VidrioCubicado();
+            dto.setId(vidrio.getId());
+            dto.setAncho(anchoCubicado);
+            dto.setAlto(altoCubicado);
+            dto.setArea(area);
+            dto.setArtefactoId(artefactoId);
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
+
+
+
+
+
+
+    //actulizar los cortantes vidrios ijijij
+
+    @Override
+    public VidrioResponse actualizarVidrio(Long id, VidrioRequest dto) {
+        Vidrio vidrio = vidrioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Vidrio no encontrado con ID: " + id));
+
+        if (!vidrio.getArtefacto().getId().equals(dto.getArtefactoId())) {
+            Artefacto artefacto = artefactoRepository.findById(dto.getArtefactoId())
+                    .orElseThrow(() -> new EntityNotFoundException("Artefacto no encontrado con ID: " + dto.getArtefactoId()));
+            vidrio.setArtefacto(artefacto);
+        }
+
+        vidrio.setAncho_cm(dto.getAncho_cm());
+        vidrio.setAlto_cm(dto.getAlto_cm());
+
+        Vidrio vidrioActualizado = vidrioRepository.save(vidrio);
+
+        VidrioResponse response = new VidrioResponse();
+        response.setId(vidrioActualizado.getId());
+        response.setAncho_cm(vidrioActualizado.getAncho_cm());
+        response.setAlto_cm(vidrioActualizado.getAlto_cm());
+        response.setArtefactoId(vidrioActualizado.getArtefacto().getId());
+
+        return response;
+    }
+
+
+
+
+    //borrarlo como mi ex
+
+    @Override
+    public void eliminarVidrio(Long id) {
+        Vidrio vidrio = vidrioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Vidrio no encontrado con ID: " + id));
+
+        vidrioRepository.delete(vidrio);
+    }
+
+
 
 
 
@@ -96,7 +184,7 @@ public class VidrioService implements IVidrioService {
 
         for (Artefacto artefacto : medicion.getArtefactos()) {
             for (Vidrio vidrio : artefacto.getVidrios()) {
-                double[] medidasCubicadas = cubicar(vidrio.getAncho_cm(), vidrio.getAlto_cm());
+                double[] medidasCubicadas = Util.cubicar(vidrio.getAncho_cm(), vidrio.getAlto_cm());
                 double anchoCubicado = medidasCubicadas[0];
                 double altoCubicado = medidasCubicadas[1];
                 double area = anchoCubicado * altoCubicado;
@@ -116,14 +204,7 @@ public class VidrioService implements IVidrioService {
     }
 
 
-//este puto lo uso intermente para cubicar cada vidrio jijijij
-    private double[] cubicar(double anchoCm, double altoCm) {
-        double anchoM = anchoCm / 100.0;
-        double altoM = altoCm / 100.0;
-        double anchoCubicado = Math.ceil(anchoM * 10) / 10.0;
-        double altoCubicado = Math.ceil(altoM * 10) / 10.0;
-        return new double[]{anchoCubicado, altoCubicado};
-    }
+
 
 
 

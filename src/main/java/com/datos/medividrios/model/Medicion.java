@@ -14,7 +14,6 @@ public class Medicion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String Cliente;
     private String descripcion;
     private Boolean hayMasDeUnPiso;
     private LocalDate fechaRegistro;

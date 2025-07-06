@@ -37,4 +37,41 @@ public class VidrioController {
         return ResponseEntity.ok(cubicados);
     }
 
+
+    /**
+     * Obtener todos los vidrios de un artefacto por ID de artefacto
+     */
+    @GetMapping("/por-artefacto/{artefactoId}")
+    public ResponseEntity<List<VidrioResponse>> obtenerVidriosPorArtefacto(@PathVariable Long artefactoId) {
+        List<VidrioResponse> vidrios = vidrioService.obtenerVidriosPorArtefacto(artefactoId);
+        return ResponseEntity.ok(vidrios);
+    }
+
+    /**
+     * Obtener todos los vidrios de un artefacto en formato cubicado
+     */
+    @GetMapping("/cubicados/por-artefacto/{artefactoId}")
+    public ResponseEntity<List<VidrioCubicado>> obtenerVidriosCubicadosPorArtefacto(@PathVariable Long artefactoId) {
+        List<VidrioCubicado> vidriosCubicados = vidrioService.obtenerVidriosCubicadosPorArtefacto(artefactoId);
+        return ResponseEntity.ok(vidriosCubicados);
+    }
+
+    /**
+     * Actualizar un vidrio existente
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<VidrioResponse> actualizarVidrio(@PathVariable Long id, @RequestBody VidrioRequest request) {
+        VidrioResponse actualizado = vidrioService.actualizarVidrio(id, request);
+        return ResponseEntity.ok(actualizado);
+    }
+
+    /**
+     * Eliminar un vidrio por ID
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarVidrio(@PathVariable Long id) {
+        vidrioService.eliminarVidrio(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
