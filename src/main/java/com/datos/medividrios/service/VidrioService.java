@@ -40,12 +40,20 @@ public class VidrioService implements IVidrioService {
                 .ancho_cm(dto.getAncho_cm())
                 .alto_cm(dto.getAlto_cm())
                 .artefacto(artefacto)
+                .color(dto.getColor())
+                .espesor(dto.getEspesor())
+                .tipo(dto.getTipo())
+                .precioM2(dto.getPrecioM2())
                 .build();
         Vidrio vidrioGuardado = vidrioRepository.save(vidrio);
         VidrioResponse response = new VidrioResponse();
         response.setId(vidrioGuardado.getId());
         response.setAncho_cm(vidrioGuardado.getAncho_cm());
         response.setAlto_cm(vidrioGuardado.getAlto_cm());
+        response.setColor(dto.getColor());
+        response.setEspesor(dto.getEspesor());
+        response.setTipo(dto.getTipo());
+        response.setPrecioM2(dto.getPrecioM2());
         response.setArtefactoId(artefacto.getId());
 
         return response;
@@ -61,6 +69,10 @@ public class VidrioService implements IVidrioService {
             dto.setId(v.getId());
             dto.setAncho_cm(v.getAncho_cm());
             dto.setAlto_cm(v.getAlto_cm());
+            dto.setColor(v.getColor());
+            dto.setEspesor(v.getEspesor());
+            dto.setTipo(v.getTipo());
+            dto.setPrecioM2(v.getPrecioM2());
             dto.setArtefactoId(artefactoId);
             return dto;
         }).collect(Collectors.toList());
@@ -110,6 +122,10 @@ public class VidrioService implements IVidrioService {
 
         vidrio.setAncho_cm(dto.getAncho_cm());
         vidrio.setAlto_cm(dto.getAlto_cm());
+        vidrio.setColor(dto.getColor());
+        vidrio.setEspesor(dto.getEspesor());
+        vidrio.setTipo(dto.getTipo());
+        vidrio.setPrecioM2(dto.getPrecioM2());
 
         Vidrio vidrioActualizado = vidrioRepository.save(vidrio);
 
@@ -117,6 +133,10 @@ public class VidrioService implements IVidrioService {
         response.setId(vidrioActualizado.getId());
         response.setAncho_cm(vidrioActualizado.getAncho_cm());
         response.setAlto_cm(vidrioActualizado.getAlto_cm());
+        response.setEspesor(vidrioActualizado.getEspesor());
+        response.setTipo(vidrioActualizado.getTipo());
+        response.setPrecioM2(vidrioActualizado.getPrecioM2());
+        response.setColor(dto.getColor());
         response.setArtefactoId(vidrioActualizado.getArtefacto().getId());
 
         return response;
@@ -160,6 +180,10 @@ public class VidrioService implements IVidrioService {
                 dto.setId(vidrio.getId());
                 dto.setAncho_cm(vidrio.getAncho_cm());
                 dto.setAlto_cm(vidrio.getAlto_cm());
+                dto.setEspesor(vidrio.getEspesor());
+                dto.setTipo(vidrio.getTipo());
+                dto.setPrecioM2(vidrio.getPrecioM2());
+                dto.setColor(vidrio.getColor());
                 dto.setArtefactoId(artefacto.getId());
                 vidriosDTO.add(dto);
             }

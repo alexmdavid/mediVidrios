@@ -1,5 +1,6 @@
 package com.datos.medividrios.model;
 
+import com.datos.medividrios.enuum.TipoVidrio;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +15,10 @@ public class Vidrio {
     private Long id;
     private float ancho_cm;
     private float alto_cm;
+    private int espesor;
+    private float precioM2;
+    private String color;
+    private TipoVidrio tipo;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "artefacto_id")
     private Artefacto artefacto;
