@@ -13,11 +13,12 @@ public class Vidrio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private float ancho_cm;
-    private float alto_cm;
-    private int espesor;
+    private Float ancho_cm;
+    private Float alto_cm;
+    @Column(name = "espesor")
+    private Integer espesor;
     @Column(name = "precio_m2")
-    private float precioM2;
+    private Float precioM2;
     private String color;
     private TipoVidrio tipo;
     @ManyToOne(fetch = FetchType.LAZY)

@@ -4,6 +4,7 @@ import com.datos.medividrios.dto.artefacto.ArtefactoRequest;
 import com.datos.medividrios.dto.artefacto.ArtefactoResponse;
 import com.datos.medividrios.dto.cubicacion.CubicacionTotalResponse;
 import com.datos.medividrios.service.ArtefactoService;
+import com.datos.medividrios.service.iservices.IArtefactoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ import java.util.List;
 @RequestMapping("api/artefacto")
 @RequiredArgsConstructor
 public class ArtefactoController {
-    private final ArtefactoService artefactoService;
+    private final IArtefactoService artefactoService;
 
 
     @PostMapping("/api/artefactos")

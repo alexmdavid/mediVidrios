@@ -1,7 +1,7 @@
 package com.datos.medividrios.dto.cliente;
 
+import com.datos.medividrios.dto.medicion.MedicionResponse;
 import com.datos.medividrios.enuum.TipoCliente;
-import com.datos.medividrios.model.Medicion;
 import lombok.Data;
 
 
@@ -17,6 +17,6 @@ public class ObtenerCliente {
     private TipoCliente tipoCliente;
     private String direccion;
     private Double gasto;
-    private List<Medicion> compras;
+    private List<MedicionResponse> compras;
 
 }

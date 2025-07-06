@@ -4,6 +4,7 @@ import com.datos.medividrios.dto.vidrio.VidrioCubicado;
 import com.datos.medividrios.dto.vidrio.VidrioRequest;
 import com.datos.medividrios.dto.vidrio.VidrioResponse;
 import com.datos.medividrios.service.VidrioService;
+import com.datos.medividrios.service.iservices.IVidrioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VidrioController {
     @Autowired
-    private VidrioService vidrioService;
+    private IVidrioService vidrioService;
 
     @PostMapping
     public ResponseEntity<VidrioResponse> crearVidrio(@RequestBody VidrioRequest dto) {

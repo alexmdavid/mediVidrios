@@ -19,6 +19,5 @@ public class MedicionResponse {
     private LocalDate fechaRegistro;
     private LocalDate fechaEntrega;
     private Long clienteId;
-    private String clienteNombre;
 }
 

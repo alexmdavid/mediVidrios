@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -180,9 +181,10 @@ public class VidrioService implements IVidrioService {
                 dto.setId(vidrio.getId());
                 dto.setAncho_cm(vidrio.getAncho_cm());
                 dto.setAlto_cm(vidrio.getAlto_cm());
-                dto.setEspesor(vidrio.getEspesor());
+                Integer espesorValue = vidrio.getEspesor();
+                int espesor = espesorValue != null ? espesorValue.intValue() : 0;
                 dto.setTipo(vidrio.getTipo());
-                dto.setPrecioM2(vidrio.getPrecioM2());
+                Float precio = vidrio.getPrecioM2() != null ? vidrio.getPrecioM2().floatValue() : 0f;
                 dto.setColor(vidrio.getColor());
                 dto.setArtefactoId(artefacto.getId());
                 vidriosDTO.add(dto);

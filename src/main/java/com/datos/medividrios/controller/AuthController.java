@@ -4,6 +4,7 @@ import com.datos.medividrios.dto.autenticacion.AuthRequest;
 import com.datos.medividrios.dto.autenticacion.AuthResponse;
 import com.datos.medividrios.security.JwtUtil;
 import com.datos.medividrios.service.AuthService;
+import com.datos.medividrios.service.iservices.IAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    private final AuthService authService;
+    private final IAuthService authService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
