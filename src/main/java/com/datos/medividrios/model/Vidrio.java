@@ -16,6 +16,7 @@ public class Vidrio {
     private float ancho_cm;
     private float alto_cm;
     private int espesor;
+    @Column(name = "precio_m2")
     private float precioM2;
     private String color;
     private TipoVidrio tipo;
