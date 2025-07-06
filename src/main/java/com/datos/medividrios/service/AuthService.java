@@ -5,6 +5,7 @@ package com.datos.medividrios.service;
 import com.datos.medividrios.dto.autenticacion.AuthRequest;
 import com.datos.medividrios.dto.autenticacion.AuthResponse;
 import com.datos.medividrios.security.JwtUtil;
+import com.datos.medividrios.service.iservices.IAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class AuthService implements IAuthService {
 
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
