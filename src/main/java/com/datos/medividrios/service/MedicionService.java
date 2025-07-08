@@ -1,5 +1,6 @@
 package com.datos.medividrios.service;
 
+import com.datos.medividrios.dto.cliente.ClienteGastoResponse;
 import com.datos.medividrios.dto.cubicacion.CubicacionTotalResponse;
 import com.datos.medividrios.model.Cliente;
 import com.datos.medividrios.model.Medicion;
@@ -162,6 +163,7 @@ public class MedicionService implements IMedicionService {
 
         return new CubicacionTotalResponse(medicionId, total);
     }
+
 
 
 }

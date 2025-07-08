@@ -28,6 +28,7 @@ public class ArtefactoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ArtefactoResponse> actualizarArtefacto(
+            @Valid
             @PathVariable Long id,
             @RequestBody ArtefactoRequest request) {
         ArtefactoResponse response = artefactoService.actualizarArtefacto(id, request);

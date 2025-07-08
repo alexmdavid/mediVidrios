@@ -5,5 +5,5 @@ public enum TipoVidrio {
     templado,
     flotado,
     reflectivo,
-    vidriado
+    martillado
 }

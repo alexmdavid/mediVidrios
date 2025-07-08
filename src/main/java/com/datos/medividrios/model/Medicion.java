@@ -1,5 +1,6 @@
 package com.datos.medividrios.model;
 
+import com.datos.medividrios.enuum.EstadoVenta;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +19,8 @@ public class Medicion {
     private Boolean hayMasDeUnPiso;
     private LocalDate fechaRegistro;
     private LocalDate fechaEntrega;
+    @Column(name = "estado_venta")
+    private EstadoVenta estadoVenta;
     @OneToMany(mappedBy = "medicion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Artefacto> artefactos;
     @ManyToOne(fetch = FetchType.LAZY)

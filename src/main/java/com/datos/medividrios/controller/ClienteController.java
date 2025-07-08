@@ -1,5 +1,6 @@
 package com.datos.medividrios.controller;
 
+import com.datos.medividrios.dto.cliente.ClienteGastoResponse;
 import com.datos.medividrios.dto.cliente.ClienteRequest;
 import com.datos.medividrios.dto.cliente.ClienteResponse;
 import com.datos.medividrios.dto.cliente.ObtenerCliente;
@@ -57,5 +58,12 @@ public class ClienteController {
         List<ObtenerCliente> clientes = clienteService.obtenerPorTipo(tipoCliente);
         return ResponseEntity.ok(clientes);
     }
+
+
+    @GetMapping("/{id}/gastos")
+    public ResponseEntity<ClienteGastoResponse> obtenerGastoTotalYPromedio(@PathVariable Long id) {
+        return ResponseEntity.ok(clienteService.obtenerGastoTotalYPromedio(id));
+    }
+
 
 }

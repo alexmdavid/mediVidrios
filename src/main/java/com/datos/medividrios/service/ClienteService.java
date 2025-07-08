@@ -1,5 +1,6 @@
 package com.datos.medividrios.service;
 
+import com.datos.medividrios.dto.cliente.ClienteGastoResponse;
 import com.datos.medividrios.dto.cliente.ClienteRequest;
 import com.datos.medividrios.dto.cliente.ClienteResponse;
 import com.datos.medividrios.dto.cliente.ObtenerCliente;
@@ -189,6 +190,34 @@ public class ClienteService implements IClienteService {
             clientes.add(obtenerCliente);
         }
         return clientes;
+    }
+
+
+
+
+    // gasto preomedio y total por un hermoso cliente
+    @Override
+    @Transactional(readOnly = true)
+    public ClienteGastoResponse obtenerGastoTotalYPromedio(Long clienteId) {
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con id: " + clienteId));
+
+        Double gastoTotalCliente = cliente.getGasto();
+
+        // calcular gasto promedio de todos los clientes:
+        List<Cliente> clientes = clienteRepository.findAll();
+        double sumaGastos = clientes.stream()
+                .mapToDouble(c -> c.getGasto() != null ? c.getGasto() : 0.0)
+                .sum();
+
+        double gastoPromedio = clientes.isEmpty() ? 0.0 : sumaGastos / clientes.size();
+
+        return new ClienteGastoResponse(
+                cliente.getId(),
+                cliente.getNombre() + " " + cliente.getApellido(),
+                gastoTotalCliente,
+                gastoPromedio
+        );
     }
 
 }
