@@ -1,6 +1,7 @@
 package com.datos.medividrios.dto.medicion;
 
 
+import com.datos.medividrios.enuum.EstadoVenta;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -11,5 +12,6 @@ public class MedicionRequest {
     private Boolean hayMasDeUnPiso;
     private LocalDate fechaRegistro;
     private LocalDate fechaEntrega;
+    private EstadoVenta estadoVenta;
     private Long clienteId;
 }

@@ -40,6 +40,7 @@ public class MedicionService implements IMedicionService {
                 .fechaRegistro(request.getFechaRegistro())
                 .fechaEntrega(request.getFechaEntrega())
                 .hayMasDeUnPiso(request.getHayMasDeUnPiso())
+                .estadoVenta(request.getEstadoVenta())
                 .cliente(cliente)
                 .build();
 
@@ -51,6 +52,7 @@ public class MedicionService implements IMedicionService {
                 .fechaRegistro(guardado.getFechaRegistro())
                 .fechaEntrega(guardado.getFechaEntrega())
                 .hayMasDeUnPiso(guardado.getHayMasDeUnPiso())
+                .estadoVenta(guardado.getEstadoVenta())
                 .clienteId(cliente.getId())
                 .build();
     }
@@ -67,6 +69,7 @@ public class MedicionService implements IMedicionService {
                 .fechaRegistro(medicion.getFechaRegistro())
                 .fechaEntrega(medicion.getFechaEntrega())
                 .hayMasDeUnPiso(medicion.getHayMasDeUnPiso())
+                .estadoVenta(medicion.getEstadoVenta())
                 .clienteId(medicion.getCliente().getId())
                 .build();
     }
@@ -81,6 +84,7 @@ public class MedicionService implements IMedicionService {
                         .fechaRegistro(medicion.getFechaRegistro())
                         .fechaEntrega(medicion.getFechaEntrega())
                         .hayMasDeUnPiso(medicion.getHayMasDeUnPiso())
+                        .estadoVenta(medicion.getEstadoVenta())
                         .clienteId(medicion.getCliente().getId())
                         .build())
                 .collect(Collectors.toList());
@@ -96,7 +100,7 @@ public class MedicionService implements IMedicionService {
         medicion.setFechaRegistro(request.getFechaRegistro());
         medicion.setFechaEntrega(request.getFechaEntrega());
         medicion.setHayMasDeUnPiso(request.getHayMasDeUnPiso());
-
+        medicion.setEstadoVenta(request.getEstadoVenta());
         if (!medicion.getCliente().getId().equals(request.getClienteId())) {
             Cliente cliente = clienteRepository.findById(request.getClienteId())
                     .orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado con ID: " + request.getClienteId()));
@@ -111,6 +115,7 @@ public class MedicionService implements IMedicionService {
                 .fechaRegistro(actualizado.getFechaRegistro())
                 .fechaEntrega(actualizado.getFechaEntrega())
                 .hayMasDeUnPiso(actualizado.getHayMasDeUnPiso())
+                .estadoVenta(actualizado.getEstadoVenta())
                 .clienteId(actualizado.getCliente().getId())
                 .build();
     }
@@ -141,6 +146,7 @@ public class MedicionService implements IMedicionService {
             response.setHayMasDeUnPiso(medicion.getHayMasDeUnPiso());
             response.setFechaRegistro(medicion.getFechaRegistro());
             response.setFechaEntrega(medicion.getFechaEntrega());
+            response.setEstadoVenta(medicion.getEstadoVenta());
             response.setClienteId(medicion.getCliente().getId());
             return response;
         }).collect(Collectors.toList());

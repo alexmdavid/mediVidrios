@@ -1,6 +1,7 @@
 package com.datos.medividrios.dto.medicion;
 
 
+import com.datos.medividrios.enuum.EstadoVenta;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class MedicionResponse {
     private Boolean hayMasDeUnPiso;
     private LocalDate fechaRegistro;
     private LocalDate fechaEntrega;
+    private EstadoVenta estadoVenta;
     private Long clienteId;
 }
 
