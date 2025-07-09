@@ -3,7 +3,6 @@ package com.datos.medividrios.controller;
 import com.datos.medividrios.dto.artefacto.ArtefactoRequest;
 import com.datos.medividrios.dto.artefacto.ArtefactoResponse;
 import com.datos.medividrios.dto.cubicacion.CubicacionTotalResponse;
-import com.datos.medividrios.service.ArtefactoService;
 import com.datos.medividrios.service.iservices.IArtefactoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
