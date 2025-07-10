@@ -16,4 +16,5 @@ public interface IVidrioService {
     List<VidrioCubicado> obtenerVidriosCubicadosPorArtefacto(Long artefactoId);
 
 
+
 }

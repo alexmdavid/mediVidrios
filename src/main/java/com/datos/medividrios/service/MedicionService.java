@@ -2,8 +2,10 @@ package com.datos.medividrios.service;
 
 import com.datos.medividrios.dto.cliente.ClienteGastoResponse;
 import com.datos.medividrios.dto.cubicacion.CubicacionTotalResponse;
+import com.datos.medividrios.model.Artefacto;
 import com.datos.medividrios.model.Cliente;
 import com.datos.medividrios.model.Medicion;
+import com.datos.medividrios.model.Vidrio;
 import com.datos.medividrios.repository.ClienteRepository;
 import com.datos.medividrios.repository.MedicionRepository;
 import com.datos.medividrios.service.iservices.IMedicionService;
@@ -171,5 +173,30 @@ public class MedicionService implements IMedicionService {
     }
 
 
+
+
+
+
+    //clacular costo de cada vidrio, ya que estos varian segun el tipo
+    @Override
+    public double calcularCostoMedicion(Long medicionId) {
+        Medicion medicion = medicionRepository.findById(medicionId)
+                .orElseThrow(() -> new EntityNotFoundException("Medición no encontrada con ID: " + medicionId));
+
+        double costoTotal = 0.0;
+
+        for (Artefacto artefacto : medicion.getArtefactos()) {
+            for (Vidrio vidrio : artefacto.getVidrios()) {
+                double[] medidasCubicadas = Util.cubicar(vidrio.getAncho_cm(), vidrio.getAlto_cm());
+                double anchoCubicado = medidasCubicadas[0];
+                double altoCubicado = medidasCubicadas[1];
+                double area = anchoCubicado * altoCubicado;
+                double precioM2 = vidrio.getPrecioM2() != null ? vidrio.getPrecioM2() : 0.0;
+                double costoVidrio = area * precioM2;
+                costoTotal += costoVidrio;
+            }
+        }
+        return costoTotal;
+    }
 
 }

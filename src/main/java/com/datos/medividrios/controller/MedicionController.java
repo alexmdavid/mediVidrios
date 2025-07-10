@@ -60,4 +60,11 @@ public class MedicionController {
         return ResponseEntity.ok(medicionService.obtenerCubicacionTotalPorMedicion(id));
     }
 
+    @GetMapping("/mediciones/{medicionId}/costo")
+    public ResponseEntity<Double> calcularCostoMedicion(@PathVariable Long medicionId) {
+        double costo = medicionService.calcularCostoMedicion(medicionId);
+        return ResponseEntity.ok(costo);
+    }
+
+
 }

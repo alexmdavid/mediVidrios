@@ -14,5 +14,7 @@ public interface IMedicionService {
     void eliminarMedicion(Long id);
     List<MedicionResponse> obtenerMedicionesPorCliente(Long clienteId);
     CubicacionTotalResponse obtenerCubicacionTotalPorMedicion(Long medicionId);
+    double calcularCostoMedicion(Long medicionId);
+
 
 }
