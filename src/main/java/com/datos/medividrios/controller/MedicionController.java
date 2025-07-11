@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestControllerAdvice
+
 @RestController
 @RequestMapping("/api/mediciones")
 @RequiredArgsConstructor
@@ -22,9 +22,16 @@ public class MedicionController {
     private final IMedicionService medicionService;
 
     @PostMapping
-    public ResponseEntity<MedicionResponse> crearMedicion(@Valid @RequestBody MedicionRequest request) {
-        MedicionResponse response = medicionService.crearMedicion(request);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    public ResponseEntity<?> crearMedicion(@Valid @RequestBody MedicionRequest request) {
+        try {
+            MedicionResponse response = medicionService.crearMedicion(request);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al crear la medición: " + e.getMessage());
+        }
     }
 
     @GetMapping
@@ -63,10 +70,18 @@ public class MedicionController {
     }
 
     @GetMapping("/mediciones/{medicionId}/costo")
-    public ResponseEntity<MedicionCosto> calcularCostoMedicion(@PathVariable Long medicionId) {
-        MedicionCosto costo = medicionService.calcularCostoMedicion(medicionId);
-        return ResponseEntity.ok(costo);
+    public Object calcularCostoMedicion(@PathVariable Long medicionId) {
+        try {
+            MedicionCosto costo = medicionService.calcularCostoMedicion(medicionId);
+            return ResponseEntity.ok(costo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("Error: " + e.getMessage());
+        }
     }
+
 
 
 }
