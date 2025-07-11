@@ -1,6 +1,7 @@
 package com.datos.medividrios.service.iservices;
 
 import com.datos.medividrios.dto.cubicacion.CubicacionTotalResponse;
+import com.datos.medividrios.dto.medicion.MedicionCosto;
 import com.datos.medividrios.dto.medicion.MedicionRequest;
 import com.datos.medividrios.dto.medicion.MedicionResponse;
 
@@ -14,7 +15,7 @@ public interface IMedicionService {
     void eliminarMedicion(Long id);
     List<MedicionResponse> obtenerMedicionesPorCliente(Long clienteId);
     CubicacionTotalResponse obtenerCubicacionTotalPorMedicion(Long medicionId);
-    double calcularCostoMedicion(Long medicionId);
+    MedicionCosto calcularCostoMedicion(Long medicionId);
 
 
 }

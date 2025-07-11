@@ -20,6 +20,7 @@ public class MedicionResponse {
     private LocalDate fechaRegistro;
     private LocalDate fechaEntrega;
     private EstadoVenta estadoVenta;
+    private Integer cantidadPisos;
     private Long clienteId;
 }
 

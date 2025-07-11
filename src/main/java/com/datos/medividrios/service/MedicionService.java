@@ -43,6 +43,7 @@ public class MedicionService implements IMedicionService {
                 .fechaEntrega(request.getFechaEntrega())
                 .hayMasDeUnPiso(request.getHayMasDeUnPiso())
                 .estadoVenta(request.getEstadoVenta())
+                .cantidadPisos(request.getCantidadPisos())
                 .cliente(cliente)
                 .build();
 
@@ -72,6 +73,7 @@ public class MedicionService implements IMedicionService {
                 .fechaEntrega(medicion.getFechaEntrega())
                 .hayMasDeUnPiso(medicion.getHayMasDeUnPiso())
                 .estadoVenta(medicion.getEstadoVenta())
+                .cantidadPisos(medicion.getCantidadPisos())
                 .clienteId(medicion.getCliente().getId())
                 .build();
     }
@@ -103,6 +105,7 @@ public class MedicionService implements IMedicionService {
         medicion.setFechaEntrega(request.getFechaEntrega());
         medicion.setHayMasDeUnPiso(request.getHayMasDeUnPiso());
         medicion.setEstadoVenta(request.getEstadoVenta());
+        medicion.setCantidadPisos(request.getCantidadPisos());
         if (!medicion.getCliente().getId().equals(request.getClienteId())) {
             Cliente cliente = clienteRepository.findById(request.getClienteId())
                     .orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado con ID: " + request.getClienteId()));
@@ -118,6 +121,7 @@ public class MedicionService implements IMedicionService {
                 .fechaEntrega(actualizado.getFechaEntrega())
                 .hayMasDeUnPiso(actualizado.getHayMasDeUnPiso())
                 .estadoVenta(actualizado.getEstadoVenta())
+                .cantidadPisos(actualizado.getCantidadPisos())
                 .clienteId(actualizado.getCliente().getId())
                 .build();
     }
@@ -149,6 +153,7 @@ public class MedicionService implements IMedicionService {
             response.setFechaRegistro(medicion.getFechaRegistro());
             response.setFechaEntrega(medicion.getFechaEntrega());
             response.setEstadoVenta(medicion.getEstadoVenta());
+            response.setCantidadPisos(medicion.getCantidadPisos());
             response.setClienteId(medicion.getCliente().getId());
             return response;
         }).collect(Collectors.toList());
@@ -179,7 +184,7 @@ public class MedicionService implements IMedicionService {
 
     //clacular costo de cada vidrio, ya que estos varian segun el tipo
     @Override
-    public double calcularCostoMedicion(Long medicionId) {
+    public MedicionCosto calcularCostoMedicion(Long medicionId) {
         Medicion medicion = medicionRepository.findById(medicionId)
                 .orElseThrow(() -> new EntityNotFoundException("Medición no encontrada con ID: " + medicionId));
 
@@ -195,8 +200,12 @@ public class MedicionService implements IMedicionService {
                 double costoVidrio = area * precioM2;
                 costoTotal += costoVidrio;
             }
+
         }
-        return costoTotal;
+        MedicionCosto medicionCosto = new MedicionCosto();
+        medicionCosto.setId(medicion.getId());
+        medicionCosto.setCostoVidrio(costoTotal);
+        return medicionCosto;
     }
 
 }

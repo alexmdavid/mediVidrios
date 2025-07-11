@@ -21,6 +21,8 @@ public class Medicion {
     private LocalDate fechaEntrega;
     @Column(name = "estado_venta")
     private EstadoVenta estadoVenta;
+    @Column(name = "cantidad_de_pisos")
+    private Integer cantidadPisos;
     @OneToMany(mappedBy = "medicion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Artefacto> artefactos;
     @ManyToOne(fetch = FetchType.LAZY)

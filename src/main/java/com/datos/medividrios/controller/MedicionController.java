@@ -1,6 +1,7 @@
 package com.datos.medividrios.controller;
 
 import com.datos.medividrios.dto.cubicacion.CubicacionTotalResponse;
+import com.datos.medividrios.dto.medicion.MedicionCosto;
 import com.datos.medividrios.dto.medicion.MedicionRequest;
 import com.datos.medividrios.dto.medicion.MedicionResponse;
 import com.datos.medividrios.service.iservices.IMedicionService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestControllerAdvice
 @RestController
 @RequestMapping("/api/mediciones")
 @RequiredArgsConstructor
@@ -61,8 +63,8 @@ public class MedicionController {
     }
 
     @GetMapping("/mediciones/{medicionId}/costo")
-    public ResponseEntity<Double> calcularCostoMedicion(@PathVariable Long medicionId) {
-        double costo = medicionService.calcularCostoMedicion(medicionId);
+    public ResponseEntity<MedicionCosto> calcularCostoMedicion(@PathVariable Long medicionId) {
+        MedicionCosto costo = medicionService.calcularCostoMedicion(medicionId);
         return ResponseEntity.ok(costo);
     }
 
