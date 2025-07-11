@@ -74,14 +74,13 @@ public class MedicionController {
         try {
             MedicionCosto costo = medicionService.calcularCostoMedicion(medicionId);
             return ResponseEntity.ok(costo);
-        } catch (Exception e) {
+        }catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
-                    .body("Error: " + e.getMessage());
+                    .body("error"+e.getMessage());
         }
     }
-
 
 
 }

@@ -1,20 +1,33 @@
 package com.datos.medividrios.enuum;
 
-public enum TipoVidrio {
-    LAMINADO,
-    TEMPLADO,
-    FLOTADO,
-    REFLECTIVO,
-    MARTILLADO;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-    @Override
-    public String toString() {
-        return switch (this) {
-            case LAMINADO -> "Laminado";
-            case TEMPLADO -> "Templado";
-            case FLOTADO -> "Flotado";
-            case REFLECTIVO -> "Reflectivo";
-            case MARTILLADO -> "Martillado";
-        };
+public enum TipoVidrio {
+    LAMINADO("Laminado"),
+    TEMPLADO("Templado"),
+    FLOTADO("Flotado"),
+    REFLECTIVO("Reflectivo"),
+    MARTILLADO("Martillado");
+
+    private final String value;
+
+    TipoVidrio(String value) {
+        this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+        return value;
+    }
+
+    @JsonCreator
+    public static TipoVidrio fromValue(String value) {
+        for (TipoVidrio tipo : values()) {
+            if (tipo.value.equalsIgnoreCase(value) || tipo.name().equalsIgnoreCase(value.replace(" ", "_"))) {
+                return tipo;
+            }
+        }
+        throw new IllegalArgumentException("TipoVidrio inválido: " + value);
     }
 }
