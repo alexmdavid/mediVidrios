@@ -89,7 +89,7 @@ public class MedicionService implements IMedicionService {
                         .fechaEntrega(medicion.getFechaEntrega())
                         .hayMasDeUnPiso(medicion.getHayMasDeUnPiso())
                         .estadoVenta(medicion.getEstadoVenta())
-                        .clienteId(medicion.getCliente().getId())
+                        .clienteId(medicion.getCliente() != null ? medicion.getCliente().getId() : null)
                         .build())
                 .collect(Collectors.toList());
     }
