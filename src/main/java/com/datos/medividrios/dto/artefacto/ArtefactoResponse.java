@@ -6,7 +6,7 @@ import lombok.Data;
 
 import java.util.List;
 
-@Builder
+
 @Data
 public class ArtefactoResponse {
     private Long id;
