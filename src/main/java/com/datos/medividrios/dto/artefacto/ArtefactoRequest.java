@@ -19,3 +19,10 @@ public class ArtefactoRequest {
     private List<VidrioRequest> vidrios;
 }
 
+
+
+
+
+
+
+
