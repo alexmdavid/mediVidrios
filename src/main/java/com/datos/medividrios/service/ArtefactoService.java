@@ -49,6 +49,10 @@ public class ArtefactoService implements IArtefactoService {
                     Vidrio vidrio = new Vidrio();
                     vidrio.setAncho_cm(vr.getAncho_cm());
                     vidrio.setAlto_cm(vr.getAlto_cm());
+                    vidrio.setEspesor(vr.getEspesor());
+                    vidrio.setPrecioM2(vr.getPrecioM2());
+                    vidrio.setTipo(vr.getTipo());
+                    vidrio.setColor(vr.getColor());
                     vidrio.setArtefacto(artefacto);
                     return vidrio;
                 })
@@ -71,6 +75,10 @@ public class ArtefactoService implements IArtefactoService {
                     vr.setId(v.getId());
                     vr.setAncho_cm(v.getAncho_cm());
                     vr.setAlto_cm(v.getAlto_cm());
+                    vr.setEspesor(v.getEspesor());
+                    vr.setPrecioM2(v.getPrecioM2());
+                    vr.setTipo(v.getTipo());
+                    vr.setColor(v.getColor());
                     return vr;
                 })
                 .collect(Collectors.toList());
