@@ -179,6 +179,10 @@ public class ArtefactoService implements IArtefactoService {
                                 vr.setId(v.getId());
                                 vr.setAncho_cm(v.getAncho_cm());
                                 vr.setAlto_cm(v.getAlto_cm());
+                                vr.setColor(v.getColor());
+                                vr.setTipo(v.getTipo());
+                                vr.setEspesor(v.getEspesor());
+                                vr.setPrecioM2(v.getPrecioM2());
                                 return vr;
                             })
                             .collect(Collectors.toList());
@@ -212,6 +216,10 @@ public class ArtefactoService implements IArtefactoService {
                     vr.setId(v.getId());
                     vr.setAncho_cm(v.getAncho_cm());
                     vr.setAlto_cm(v.getAlto_cm());
+                    vr.setColor(v.getColor());
+                    vr.setTipo(v.getTipo());
+                    vr.setEspesor(v.getEspesor());
+                    vr.setPrecioM2(v.getPrecioM2());
                     return vr;
                 })
                 .collect(Collectors.toList());
