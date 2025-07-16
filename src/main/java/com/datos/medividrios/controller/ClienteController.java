@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -31,7 +30,6 @@ public class ClienteController {
         List<ObtenerCliente> clientes = clienteService.clientes();
         return ResponseEntity.ok(clientes);
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<ObtenerCliente> obtenerClientePorId(@PathVariable Long id) {
@@ -59,11 +57,8 @@ public class ClienteController {
         return ResponseEntity.ok(clientes);
     }
 
-
     @GetMapping("/{id}/gastos")
     public ResponseEntity<ClienteGastoResponse> obtenerGastoTotalYPromedio(@PathVariable Long id) {
         return ResponseEntity.ok(clienteService.obtenerGastoTotalYPromedio(id));
     }
-
-
 }

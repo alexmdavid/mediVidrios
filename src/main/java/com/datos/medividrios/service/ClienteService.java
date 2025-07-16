@@ -9,11 +9,9 @@ import com.datos.medividrios.enuum.TipoCliente;
 import com.datos.medividrios.model.Cliente;
 import com.datos.medividrios.repository.ClienteRepository;
 import com.datos.medividrios.service.iservices.IClienteService;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,8 +43,6 @@ public class ClienteService implements IClienteService {
         return clienteResponse;
     }
 
-
-//mala mia este metodo es obtener todos los clientes, clientes no especifica mucho
     @Override
     public List<ObtenerCliente> clientes() {
         List<ObtenerCliente> clientes = new ArrayList<>();
@@ -60,7 +56,6 @@ public class ClienteService implements IClienteService {
             obtenerCliente.setDireccion(cliente.getDireccion());
             obtenerCliente.setTipoCliente(cliente.getTipoCliente());
             obtenerCliente.setGasto(cliente.getGasto());
-
             List<MedicionResponse> compras = cliente.getCompras().stream()
                     .map(medicion -> {
                         MedicionResponse response = new MedicionResponse();
@@ -73,22 +68,16 @@ public class ClienteService implements IClienteService {
                         return response;
                     })
                     .toList();
-
             obtenerCliente.setCompras(compras);
             clientes.add(obtenerCliente);
         }
         return clientes;
     }
 
-
-
-
-    //nada que especificar
     @Override
     public ObtenerCliente obtenerPorId(Long id) {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado con id: " + id));
-
         ObtenerCliente obtenerCliente = new ObtenerCliente();
         obtenerCliente.setId(cliente.getId());
         obtenerCliente.setNombre(cliente.getNombre());
@@ -98,7 +87,6 @@ public class ClienteService implements IClienteService {
         obtenerCliente.setDireccion(cliente.getDireccion());
         obtenerCliente.setTipoCliente(cliente.getTipoCliente());
         obtenerCliente.setGasto(cliente.getGasto());
-
         List<MedicionResponse> compras = cliente.getCompras().stream()
                 .map(medicion -> {
                     MedicionResponse response = new MedicionResponse();
@@ -111,13 +99,10 @@ public class ClienteService implements IClienteService {
                     return response;
                 })
                 .toList();
-
         obtenerCliente.setCompras(compras);
         return obtenerCliente;
     }
 
-
-    //menos es mas
     @Override
     public void eliminar(Long id) {
         if (!clienteRepository.existsById(id)) {
@@ -126,13 +111,10 @@ public class ClienteService implements IClienteService {
         clienteRepository.deleteById(id);
     }
 
-
-    //lo nuevo no siempre es mejor
     @Override
     public ClienteResponse actualizar(Long id, ClienteRequest dto) {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado con id: " + id));
-
         cliente.setNombre(dto.getNombre());
         cliente.setApellido(dto.getApellido());
         cliente.setEmail(dto.getEmail());
@@ -140,9 +122,7 @@ public class ClienteService implements IClienteService {
         cliente.setDireccion(dto.getDireccion());
         cliente.setTipoCliente(dto.getTipoCliente());
         cliente.setGasto(dto.getGasto());
-
         Cliente clienteActualizado = clienteRepository.save(cliente);
-
         ClienteResponse clienteResponse = new ClienteResponse();
         clienteResponse.setId(clienteActualizado.getId());
         clienteResponse.setNombre(clienteActualizado.getNombre());
@@ -152,12 +132,9 @@ public class ClienteService implements IClienteService {
         clienteResponse.setDireccion(clienteActualizado.getDireccion());
         clienteResponse.setTipoCliente(clienteActualizado.getTipoCliente());
         clienteResponse.setGasto(clienteActualizado.getGasto());
-
         return clienteResponse;
     }
 
-
-    //en fin, los del frontend piden mucho y hacen poco
     @Transactional(readOnly = true)
     @Override
     public List<ObtenerCliente> obtenerPorTipo(TipoCliente tipoCliente) {
@@ -172,7 +149,6 @@ public class ClienteService implements IClienteService {
             obtenerCliente.setDireccion(cliente.getDireccion());
             obtenerCliente.setTipoCliente(cliente.getTipoCliente());
             obtenerCliente.setGasto(cliente.getGasto());
-
             List<MedicionResponse> compras = cliente.getCompras().stream()
                     .map(medicion -> {
                         MedicionResponse response = new MedicionResponse();
@@ -185,33 +161,23 @@ public class ClienteService implements IClienteService {
                         return response;
                     })
                     .toList();
-
             obtenerCliente.setCompras(compras);
             clientes.add(obtenerCliente);
         }
         return clientes;
     }
 
-
-
-
-    // gasto preomedio y total por un hermoso cliente
     @Override
     @Transactional(readOnly = true)
     public ClienteGastoResponse obtenerGastoTotalYPromedio(Long clienteId) {
         Cliente cliente = clienteRepository.findById(clienteId)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado con id: " + clienteId));
-
         Double gastoTotalCliente = cliente.getGasto();
-
-        // calcular gasto promedio de todos los clientes:
         List<Cliente> clientes = clienteRepository.findAll();
         double sumaGastos = clientes.stream()
                 .mapToDouble(c -> c.getGasto() != null ? c.getGasto() : 0.0)
                 .sum();
-
         double gastoPromedio = clientes.isEmpty() ? 0.0 : sumaGastos / clientes.size();
-
         return new ClienteGastoResponse(
                 cliente.getId(),
                 cliente.getNombre() + " " + cliente.getApellido(),
@@ -219,5 +185,4 @@ public class ClienteService implements IClienteService {
                 gastoPromedio
         );
     }
-
 }

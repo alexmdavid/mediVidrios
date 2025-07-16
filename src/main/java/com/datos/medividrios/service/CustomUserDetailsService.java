@@ -10,25 +10,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-
     @Autowired
     private UsuarioRepository usuarioRepository;
-
     @Override
     public UserDetails loadUserByUsername(String input) throws UsernameNotFoundException {
         if (!"Rubiel".equalsIgnoreCase(input) && !"rubiel@cliente.com".equalsIgnoreCase(input)) {
             throw new UsernameNotFoundException("No autorizado para acceder");
         }
-
         Usuario usuario = usuarioRepository.findByNombreOrCorreo(input, input)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
         System.out.println("Usuario cargado: " + usuario.getCorreo() + " con rol: " + usuario.getRol());
-
         return org.springframework.security.core.userdetails.User
                 .withUsername(usuario.getCorreo())
                 .password(usuario.getHashClave())
                 .authorities(usuario.getRol())
                 .build();
-
     }
 }

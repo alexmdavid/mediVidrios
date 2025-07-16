@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 
@@ -18,7 +17,6 @@ import java.util.List;
 @RequestMapping("/api/mediciones")
 @RequiredArgsConstructor
 public class MedicionController {
-
     private final IMedicionService medicionService;
 
     @PostMapping
@@ -81,6 +79,4 @@ public class MedicionController {
                     .body("error"+e.getMessage());
         }
     }
-
-
 }

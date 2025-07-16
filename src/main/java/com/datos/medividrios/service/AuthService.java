@@ -1,7 +1,5 @@
 package com.datos.medividrios.service;
 
-
-
 import com.datos.medividrios.dto.autenticacion.AuthRequest;
 import com.datos.medividrios.dto.autenticacion.AuthResponse;
 import com.datos.medividrios.security.JwtUtil;
@@ -17,11 +15,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthService implements IAuthService {
-
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final JwtUtil jwtUtil;
-
     public AuthResponse login(AuthRequest request) throws AuthenticationException {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())

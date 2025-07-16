@@ -29,6 +29,4 @@ public class PdfController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(pdfBytes);
     }
-
-
 }
