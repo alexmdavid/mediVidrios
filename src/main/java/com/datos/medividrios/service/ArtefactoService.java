@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,22 +27,13 @@ public class ArtefactoService implements IArtefactoService {
     @Autowired
     private MedicionRepository medicionRepository;
 
-
-
-    //GUARDAR ARTEFACTO, UN MIERDERO LLEVO, PERO AJA SIRVE
-
     @Transactional
     public ArtefactoResponse crearArtefacto(ArtefactoRequest request) {
-        // 1. obtener la medicion obligatoria
         Medicion medicion = medicionRepository.findById(request.getMedicionId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Medicion no encontrada"));
-
-        // 2. crear el hermoso artefacto
         Artefacto artefacto = new Artefacto();
         artefacto.setNombre(request.getNombre());
         artefacto.setMedicion(medicion);
-
-        // 3. crear vidrios y asignarlos alputo artefacto
         List<Vidrio> vidrios = request.getVidrios().stream()
                 .map(vr -> {
                     Vidrio vidrio = new Vidrio();
@@ -57,18 +47,12 @@ public class ArtefactoService implements IArtefactoService {
                     return vidrio;
                 })
                 .collect(Collectors.toList());
-
         artefacto.setVidrios(vidrios);
-
-        // 4. guardar
         Artefacto artefactoGuardado = artefactoRepository.save(artefacto);
-
-        // 5. mapear a artefactoResponse
         ArtefactoResponse response = new ArtefactoResponse();
         response.setId(artefactoGuardado.getId());
         response.setNombre(artefactoGuardado.getNombre());
         response.setMedicionId(medicion.getId());
-
         List<VidrioResponse> vidriosResponse = artefactoGuardado.getVidrios().stream()
                 .map(v -> {
                     VidrioResponse vr = new VidrioResponse();
@@ -82,34 +66,18 @@ public class ArtefactoService implements IArtefactoService {
                     return vr;
                 })
                 .collect(Collectors.toList());
-
         response.setVidrios(vidriosResponse);
-        //y finishhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh jijijijijijij
         return response;
     }
-
-
-
-
-
-
-    //aca se viene el actulizar de esta porqueria jijij
-
 
     @Transactional
     public ArtefactoResponse actualizarArtefacto(Long id, ArtefactoRequest request) {
         Artefacto artefacto = artefactoRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Artefacto no encontrado"));
-
-        // Actualizar nombre
         artefacto.setNombre(request.getNombre());
-
-        // Actualizar medición si deseas permitirlo
         Medicion nuevaMedicion = medicionRepository.findById(request.getMedicionId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Medición no encontrada"));
         artefacto.setMedicion(nuevaMedicion);
-
-        // Reemplazar vidrios
         artefacto.getVidrios().clear();
         List<Vidrio> nuevosVidrios = request.getVidrios().stream()
                 .map(vr -> {
@@ -121,15 +89,11 @@ public class ArtefactoService implements IArtefactoService {
                 })
                 .collect(Collectors.toList());
         artefacto.getVidrios().addAll(nuevosVidrios);
-
         Artefacto artefactoActualizado = artefactoRepository.save(artefacto);
-
-        // Mapear a ArtefactoResponse
         ArtefactoResponse response = new ArtefactoResponse();
         response.setId(artefactoActualizado.getId());
         response.setNombre(artefactoActualizado.getNombre());
         response.setMedicionId(nuevaMedicion.getId());
-
         List<VidrioResponse> vidriosResponse = artefactoActualizado.getVidrios().stream()
                 .map(v -> {
                     VidrioResponse vr = new VidrioResponse();
@@ -139,14 +103,9 @@ public class ArtefactoService implements IArtefactoService {
                     return vr;
                 })
                 .collect(Collectors.toList());
-
         response.setVidrios(vidriosResponse);
-
         return response;
     }
-
-
-    //eliino un pvto artefacto
 
     @Transactional
     public void eliminarArtefacto(Long id) {
@@ -154,12 +113,6 @@ public class ArtefactoService implements IArtefactoService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Artefacto no encontrado"));
         artefactoRepository.delete(artefacto);
     }
-
-
-
-
-
-    //obtener todos los artefactos de una medicion
 
     @Transactional(readOnly = true)
     public List<ArtefactoResponse> obtenerArtefactosPorMedicion(Long medicionId) {
@@ -186,30 +139,20 @@ public class ArtefactoService implements IArtefactoService {
                                 return vr;
                             })
                             .collect(Collectors.toList());
-
                     response.setVidrios(vidriosResponse);
-
                     return response;
                 })
                 .collect(Collectors.toList());
     }
 
-
-
-
-
-    //obtenerlo por id, pero solo un puto de estos
-
     @Transactional(readOnly = true)
     public ArtefactoResponse obtenerArtefactoPorId(Long id) {
         Artefacto artefacto = artefactoRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Artefacto no encontrado"));
-
         ArtefactoResponse response = new ArtefactoResponse();
         response.setId(artefacto.getId());
         response.setNombre(artefacto.getNombre());
         response.setMedicionId(artefacto.getMedicion().getId());
-
         List<VidrioResponse> vidriosResponse = artefacto.getVidrios().stream()
                 .map(v -> {
                     VidrioResponse vr = new VidrioResponse();
@@ -223,31 +166,20 @@ public class ArtefactoService implements IArtefactoService {
                     return vr;
                 })
                 .collect(Collectors.toList());
-
         response.setVidrios(vidriosResponse);
-
         return response;
     }
 
-
-
-
-
-    //cucbicacion total por un artefacto
     @Override
     public CubicacionTotalResponse obtenerCubicacionTotalPorArtefacto(Long artefactoId) {
         Artefacto artefacto = artefactoRepository.findById(artefactoId)
                 .orElseThrow(() -> new EntityNotFoundException("Artefacto no encontrado con ID: " + artefactoId));
-
         double total = artefacto.getVidrios().stream()
                 .mapToDouble(v -> {
                     double[] medidas = Util.cubicar(v.getAncho_cm(), v.getAlto_cm());
                     return medidas[0] * medidas[1];
                 })
                 .sum();
-
         return new CubicacionTotalResponse(artefactoId, total);
     }
-
-
 }

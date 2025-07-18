@@ -117,7 +117,6 @@ public class VidrioService implements IVidrioService {
         return response;
     }
 
-    //borrarlo como mi ex
     @Override
     public void eliminarVidrio(Long id) {
         Vidrio vidrio = vidrioRepository.findById(id)
