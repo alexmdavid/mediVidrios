@@ -1,9 +1,6 @@
 package com.datos.medividrios.controller;
 
-import com.datos.medividrios.dto.cotizacion.Cotizacion;
 import com.datos.medividrios.service.CotizacionPdfService;
-import com.datos.medividrios.service.DocumentoPdfService;
-import com.datos.medividrios.service.iservices.PdfService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -16,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/pdf")
 @RequiredArgsConstructor
 public class PdfController {
-    @Autowired
-    private DocumentoPdfService documentoPdfService;
     @Autowired
     private CotizacionPdfService cotizacionPdfService;
 
