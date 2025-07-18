@@ -12,24 +12,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/api/mediciones")
 @RequiredArgsConstructor
 public class MedicionController {
+
     private final IMedicionService medicionService;
 
     @PostMapping
-    public ResponseEntity<?> crearMedicion(@Valid @RequestBody MedicionRequest request) {
-        try {
-            MedicionResponse response = medicionService.crearMedicion(request);
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al crear la medición: " + e.getMessage());
-        }
+    public ResponseEntity<MedicionResponse> crearMedicion(@Valid @RequestBody MedicionRequest request) {
+        MedicionResponse response = medicionService.crearMedicion(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
@@ -45,7 +38,8 @@ public class MedicionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MedicionResponse> actualizarMedicion(@PathVariable Long id, @Valid @RequestBody MedicionRequest request) {
+    public ResponseEntity<MedicionResponse> actualizarMedicion(@PathVariable Long id,
+                                                               @Valid @RequestBody MedicionRequest request) {
         MedicionResponse response = medicionService.actualizarMedicion(id, request);
         return ResponseEntity.ok(response);
     }
@@ -64,19 +58,23 @@ public class MedicionController {
 
     @GetMapping("/{id}/cubicacion-total")
     public ResponseEntity<CubicacionTotalResponse> obtenerCubicacionTotalPorMedicion(@PathVariable Long id) {
-        return ResponseEntity.ok(medicionService.obtenerCubicacionTotalPorMedicion(id));
+        CubicacionTotalResponse response = medicionService.obtenerCubicacionTotalPorMedicion(id);
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/mediciones/{medicionId}/costo")
-    public Object calcularCostoMedicion(@PathVariable Long medicionId) {
-        try {
-            MedicionCosto costo = medicionService.calcularCostoMedicion(medicionId);
-            return ResponseEntity.ok(costo);
-        }catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("error"+e.getMessage());
-        }
+    @GetMapping("/{id}/costo")
+    public ResponseEntity<MedicionCosto> calcularCostoMedicion(@PathVariable Long id) {
+        MedicionCosto costo = medicionService.calcularCostoMedicion(id);
+        return ResponseEntity.ok(costo);
+    }
+
+    @GetMapping("/mejores-ventas")
+    public ResponseEntity<List<MedicionResponse>> obtenerMejoresVentasPorPeriodo(
+            @RequestParam String period,
+            @RequestParam(required = false) String fechaInicio,
+            @RequestParam(required = false) String fechaFin
+    ) {
+        List<MedicionResponse> mejoresVentas = medicionService.obtenerMejoresVentasPorPeriodo(period, fechaInicio, fechaFin);
+        return ResponseEntity.ok(mejoresVentas);
     }
 }

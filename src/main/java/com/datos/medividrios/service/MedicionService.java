@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.datos.medividrios.dto.medicion.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -177,5 +180,54 @@ public class MedicionService implements IMedicionService {
         medicionCosto.setId(medicion.getId());
         medicionCosto.setCostoVidrio(costoTotal);
         return medicionCosto;
+    }
+
+    @Override
+    public List<MedicionResponse> obtenerMejoresVentasPorPeriodo(String period, String fechaInicioStr, String fechaFinStr) {
+        LocalDate fechaFin = LocalDate.now();
+        LocalDate fechaInicio;
+        switch (period.toUpperCase()) {
+            case "SEMANA":
+                fechaInicio = fechaFin.minusWeeks(1);
+                break;
+            case "MES":
+                fechaInicio = fechaFin.minusMonths(1);
+                break;
+            case "ANIO":
+                fechaInicio = fechaFin.minusYears(1);
+                break;
+            case "CUSTOM":
+                fechaInicio = LocalDate.parse(fechaInicioStr);
+                fechaFin = LocalDate.parse(fechaFinStr);
+                break;
+            default:
+                throw new IllegalArgumentException("Periodo inválido: " + period);
+        }
+        List<Medicion> mediciones = medicionRepository.findByFechaRegistroBetween(
+                fechaInicio.atStartOfDay(),
+                fechaFin.atTime(LocalTime.MAX)
+        );
+        return mediciones.stream()
+                .map(medicion -> {
+                    double costo = calcularCostoMedicion(medicion.getId()).getCostoVidrio();
+                    return new Object[] { medicion, costo };
+                })
+                .sorted((o1, o2) -> Double.compare((Double) o2[1], (Double) o1[1]))
+                .map(obj -> {
+                    Medicion medicion = (Medicion) obj[0];
+                    Double costo = (Double) obj[1];
+                    return MedicionResponse.builder()
+                            .id(medicion.getId())
+                            .descripcion(medicion.getDescripcion())
+                            .fechaRegistro(medicion.getFechaRegistro())
+                            .fechaEntrega(medicion.getFechaEntrega())
+                            .estadoVenta(medicion.getEstadoVenta())
+                            .cantidadPisos(medicion.getCantidadPisos())
+                            .hayMasDeUnPiso(medicion.getHayMasDeUnPiso())
+                            .clienteId(medicion.getCliente() != null ? medicion.getCliente().getId() : null)
+                            .costoTotal(costo)
+                            .build();
+                })
+                .collect(Collectors.toList());
     }
 }

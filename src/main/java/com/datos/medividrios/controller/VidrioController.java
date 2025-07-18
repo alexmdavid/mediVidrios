@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VidrioController {
     @Autowired
-    private IVidrioService vidrioService;
+    private final IVidrioService vidrioService;
 
     @PostMapping
     public ResponseEntity<VidrioResponse> crearVidrio(@RequestBody VidrioRequest dto) {

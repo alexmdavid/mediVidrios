@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class PdfController {
     @Autowired
-    private CotizacionPdfService cotizacionPdfService;
+    private final CotizacionPdfService cotizacionPdfService;
 
     @GetMapping("/{id}/cotizacion-pdf")
     public ResponseEntity<byte[]> generarCotizacionPdf(@PathVariable Long id) {

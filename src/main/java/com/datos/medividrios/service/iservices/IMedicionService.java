@@ -16,6 +16,8 @@ public interface IMedicionService {
     List<MedicionResponse> obtenerMedicionesPorCliente(Long clienteId);
     CubicacionTotalResponse obtenerCubicacionTotalPorMedicion(Long medicionId);
     MedicionCosto calcularCostoMedicion(Long medicionId);
+    List<MedicionResponse> obtenerMejoresVentasPorPeriodo(String period, String fechaInicio, String fechaFin);
+
 
 
 }
