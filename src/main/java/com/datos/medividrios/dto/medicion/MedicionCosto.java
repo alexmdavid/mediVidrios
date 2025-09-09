@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 public class MedicionCosto {
     private Long id;
-    private Double costoVidrio;
+    private Double costoMedicion;
 }

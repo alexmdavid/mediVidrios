@@ -178,7 +178,7 @@ public class MedicionService implements IMedicionService {
         }
         MedicionCosto medicionCosto = new MedicionCosto();
         medicionCosto.setId(medicion.getId());
-        medicionCosto.setCostoVidrio(costoTotal);
+        medicionCosto.setCostoMedicion(costoTotal);
         return medicionCosto;
     }
 
@@ -209,7 +209,7 @@ public class MedicionService implements IMedicionService {
         );
         return mediciones.stream()
                 .map(medicion -> {
-                    double costo = calcularCostoMedicion(medicion.getId()).getCostoVidrio();
+                    double costo = calcularCostoMedicion(medicion.getId()).getCostoMedicion();
                     return new Object[] { medicion, costo };
                 })
                 .sorted((o1, o2) -> Double.compare((Double) o2[1], (Double) o1[1]))
